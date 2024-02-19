@@ -1,0 +1,3 @@
+## Containerizing an R Script for HPC Deployment
+
+This repository contains the code and instructions for containerizing an R script for deployment on a High Performance Computing (HPC) cluster. The R script used in this repository contains a function that uses `qsmooth` normalization R package to be applied to a specific input file. The goal is to demonstrate how to create a Docker container for an R script and run it on an HPC cluster using Singularity.
