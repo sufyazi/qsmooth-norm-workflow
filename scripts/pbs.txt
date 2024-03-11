@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+
+#PBS -N qsmooth-test-1sample
+#PBS -l select=1:ncpus=1:mem=400GB
+#PBS -l walltime=24:00:00
+#PBS -j oe
+#PBS -P personal
+#PBS -q normal
+#PBS -o /home/users/ntu/rwu008/scratch/data/outputs/out.txt
+#PBS -e /home/users/ntu/rwu008/scratch/data/outputs/error.txt
+
+# load module
+module load singularity
+#singularity exec /home/users/ntu/rwu008/scratch/data/qsmoothR.sif Rscript /home/users/ntu/rwu008/0/qsmooth_nscc.R --args /home/users/ntu/rwu008/scratch/data/inputs/AHR_AHR_HUMAN.H11MO.0.B_tfbs_merged_matrix-full.parquet
+if singularity exec --bind /home/users/ntu/rwu008/scratch/data:/data --bind /home/users/ntu/rwu008/scratch/scripts:/scripts qsmooth.sif Rscript /scripts/qsmooth_nscc.R /data/test; then
+    echo "qsmooth run finished!"
+else
+    echo "Qsmooth did not work!"
+fi
