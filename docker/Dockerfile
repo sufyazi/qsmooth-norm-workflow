@@ -11,4 +11,4 @@ COPY install_packages.R /scripts
 RUN Rscript /scripts/install_packages.R
 
 ## specify the default command to run when the container starts
-CMD ["R"]
+# CMD ["R --vanilla"]
