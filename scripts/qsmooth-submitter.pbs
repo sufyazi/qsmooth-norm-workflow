@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+#PBS -N qsmooth-parallel-submit
+#PBS -l select=1:ncpus=1:mem=10GB
+#PBS -l walltime=4:00:00
+#PBS -j oe
+#PBS -P personal
+#PBS -q normal
+#PBS -o /home/users/ntu/rwu008/scratch/data/outputs/out.txt
+#PBS -e /home/users/ntu/rwu008/scratch/data/outputs/error.txt
+
+# load module
+module load singularity
+
+# set variables
+INPUT_DIR = "/home/users/ntu/rwu008/scratch/inputs"
+
+# find all parquet files just within the INPUT_DIR and map them to the file_paths array 
+readarray -t file_paths < <(find "$INPUT_DIR" -mindepth 1 -maxdepth 1 -name "*.parquet" -type f)
+
+echo "The total number of parquet files:" "${#file_paths[@]}"
+
+# initialize count
+count=0
+
+for file in "${file_paths[@]}"; do
+    # increment count
+    ((count++))
+    # print current file
+    echo "File no $count: $file"
+
+    # run qsmooth R
+    #if singularity exec --bind /home/users/ntu/rwu008/scratch/data:/data --bind /home/users/ntu/rwu008/scratch/scripts:/scripts qsmooth.sif Rscript /scripts/qsmooth_nscc.R /data/test; then
+        #echo "qsmooth run finished for file no $count: $file!"
+    #else
+        #echo "Qsmooth did not work for file no $count: $file!"
+    #fi
+done
+
+echo "Exiting script..."
+
+
+
+
+
